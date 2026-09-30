@@ -127,7 +127,8 @@ function StrategyDeck() {
   const initial = typeof window === "undefined" ? 0 : Math.min(slides.length - 1, Math.max(0, Number(new URLSearchParams(window.location.search).get("slide")) - 1 || 0));
   const [index, setIndex] = useState(initial); const [overview, setOverview] = useState(false); const [exporting, setExporting] = useState(false); const touchX = useRef(0);
   const go = useCallback((next: number) => setIndex(Math.max(0, Math.min(slides.length - 1, next))), []);
-  useEffect(() => { const url = new URL(window.location.href); url.searchParams.set("slide", String(index + 1)); window.history.replaceState({}, "", url); document.title = `${index + 1}/${slides.length} — ${slides[index].title}`; }, [index]);
+  const currentSlide = slides[index] ?? slides[0];
+  useEffect(() => { const url = new URL(window.location.href); url.searchParams.set("slide", String(index + 1)); window.history.replaceState({}, "", url); document.title = `${index + 1}/${slides.length} — ${currentSlide?.title ?? "Liivrr Strategy"}`; }, [currentSlide, index]);
   useEffect(() => { const key = (e: KeyboardEvent) => { if (e.key === "ArrowRight" || e.key === " ") go(index + 1); if (e.key === "ArrowLeft") go(index - 1); if (e.key.toLowerCase() === "g") setOverview(v => !v); if (e.key === "F5") { e.preventDefault(); document.documentElement.requestFullscreen().catch(() => undefined); } }; window.addEventListener("keydown", key); return () => window.removeEventListener("keydown", key); }, [go, index]);
   const downloadPdf = async () => {
     setExporting(true);
@@ -135,13 +136,13 @@ function StrategyDeck() {
       const [{ default: html2canvas }, { jsPDF }] = await Promise.all([import("html2canvas"), import("jspdf")]);
       const nodes = Array.from(document.querySelectorAll<HTMLElement>(".export-slide .slide-content"));
       const pdf = new jsPDF({ orientation: "landscape", unit: "px", format: [1920, 1080], hotfixes: ["px_scaling"] });
-      for (let i = 0; i < nodes.length; i++) { if (i > 0) pdf.addPage([1920, 1080], "landscape"); const canvas = await html2canvas(nodes[i], { scale: 1, useCORS: true, backgroundColor: null }); pdf.addImage(canvas.toDataURL("image/jpeg", .92), "JPEG", 0, 0, 1920, 1080, undefined, "FAST"); }
+      for (const [i, node] of nodes.entries()) { if (i > 0) pdf.addPage([1920, 1080], "landscape"); const canvas = await html2canvas(node, { scale: 0.5, useCORS: true, backgroundColor: null }); pdf.addImage(canvas.toDataURL("image/jpeg", .9), "JPEG", 0, 0, 1920, 1080, undefined, "FAST"); }
       pdf.save("Liivrr_Strategic_Execution_Roadmap.pdf");
     } finally { setExporting(false); }
   };
-  return <main className="deck-shell" onTouchStart={e=>{touchX.current=e.touches[0].clientX}} onTouchEnd={e=>{const d=e.changedTouches[0].clientX-touchX.current;if(Math.abs(d)>60)go(index+(d<0?1:-1))}}>
+  return <main className="deck-shell" onTouchStart={e=>{touchX.current=e.touches[0]?.clientX ?? 0}} onTouchEnd={e=>{const d=(e.changedTouches[0]?.clientX ?? touchX.current)-touchX.current;if(Math.abs(d)>60)go(index+(d<0?1:-1))}}>
     <nav className="deck-toolbar"><div className="deck-logo"><span>L</span><b>LIIVRR</b></div><div className="toolbar-actions"><button title="Overview" aria-label="Overview" onClick={()=>setOverview(v=>!v)}><Grid2X2/></button><button title="Present fullscreen" aria-label="Present fullscreen" onClick={()=>document.documentElement.requestFullscreen()}><Expand/></button><button className="download-button" onClick={downloadPdf} disabled={exporting}>{exporting?<LoaderCircle className="spin"/>:<Download/>}<span>{exporting?"BUILDING PDF":"DOWNLOAD PDF"}</span></button></div></nav>
-    <section className="deck-canvas"><ScaledSlide>{slides[index].node}</ScaledSlide></section>
+    <section className="deck-canvas"><ScaledSlide>{currentSlide?.node}</ScaledSlide></section>
     <div className="deck-controls"><button aria-label="Previous slide" disabled={index===0} onClick={()=>go(index-1)}><ArrowLeft/></button><span>{String(index+1).padStart(2,"0")} / {String(slides.length).padStart(2,"0")}</span><button aria-label="Next slide" disabled={index===slides.length-1} onClick={()=>go(index+1)}><ArrowRight/></button></div>
     {overview&&<div className="overview"><div className="overview-head"><h2>Deck overview</h2><button aria-label="Close overview" onClick={()=>setOverview(false)}><X/></button></div><div className="overview-grid">{slides.map((s,i)=><button key={s.title} onClick={()=>{go(i);setOverview(false)}}><ScaledSlide>{s.node}</ScaledSlide><span>{i+1}. {s.title}</span></button>)}</div></div>}
     <div className="export-deck" aria-hidden="true">{slides.map(s=><ScaledSlide exportMode key={s.title}>{s.node}</ScaledSlide>)}</div>
