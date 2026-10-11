@@ -6,5 +6,5 @@
 - [x] Update the current slide with original wording and company-readiness priorities
 - [x] Refresh and verify the readable direct-download PDF
 
-- [ ] Restore the uploaded text verbatim and move slide 9 to slide 2
-- [ ] Regenerate and visually verify the matching downloadable PDF
+- [x] Restore the uploaded text verbatim and move slide 9 to slide 2
+- [x] Regenerate and visually verify the matching downloadable PDF
