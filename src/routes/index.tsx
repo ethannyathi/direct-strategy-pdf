@@ -103,12 +103,16 @@ const slides = [
     </Slide>
   },
   {
-    title: "Scorecard & Priorities",
-    node: <Slide number={9}>
-      <div className="slide-heading"><p className="slide-kicker">EXECUTION SCORECARD</p><h2 className="slide-title">The operating mandate.</h2></div>
-      <div className="scorecard"><div><span>ACTIVE USERS</span><strong>1,000</strong><p>by December 2026</p></div><div><span>VERIFIED TENANTS</span><strong>50</strong><p>restaurants + organizers</p></div><div><span>GRANT TARGET</span><strong>$100K</strong><p>non-dilutive USDC</p></div></div>
-      <div className="priority-row"><span>FIRST 30 DAYS</span><strong>Ship mainnet proof</strong><strong>Secure ecosystem support</strong><strong>Build the campus pipeline</strong></div>
-      <p className="closing-line">Execution creates evidence. Evidence unlocks capital. Capital accelerates density.</p>
+    title: "COO/BD Operational Roadmap & Company Readiness",
+    node: <Slide number={9} className="readiness-slide">
+      <div className="readiness-heading"><p className="slide-kicker">Strategic Execution Deck</p><h2 className="slide-title">COO/BD Operational Roadmap</h2></div>
+      <p className="readiness-objective"><strong>Objective: </strong>A systematic blueprint to scale Liivrr through five hyper-efficient phases. Each step outlines the strategic objective (What), the business rationale (Why), and the precise execution path (How) to hit our core milestone of 1,000 active users and 50 merchant tenants (restaurants &amp; event organizers) by December 2026.</p>
+      <div className="readiness-grid">
+        <section><span>01 / COMPANY FORMATION</span><h3>LLC incorporation on Stripe Atlas</h3><p>Prepare the LLC incorporation application through Stripe Atlas; confirm entity eligibility, ownership, formation documents, and tax requirements before filing.</p></section>
+        <section><span>02 / INVESTOR READINESS</span><h3>Data Room creation using PageForm</h3><p>Organize incorporation documents, ownership records, the product roadmap, grant applications, financials, and go-to-market materials in a controlled-access data room using PageForm.</p></section>
+        <section><span>03 / FINANCIALS</span><h3>New hires &amp; how the money will be used</h3><p>Prepare a hiring plan covering roles, start dates, and costs. Show funding allocation across new hires, engineering, infrastructure, marketing, and operations, with monthly cash flow and runway.</p></section>
+        <section><span>04 / GO-TO-MARKET STRATEGY</span><h3>Collegiate Pilot &amp; Tenant Acquisition Run</h3><p>Launch a hyper-dense, high-retention user acquisition pilot across target campus clusters, aggressively onboarding 50 local restaurant and event tenants alongside a core base of 1,000 active users by December 2026.</p></section>
+      </div>
     </Slide>
   },
 ];
