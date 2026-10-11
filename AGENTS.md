@@ -12,3 +12,5 @@
 ## Project architecture
 
 - The deck is authored as fixed 1920×1080 React slides and scaled by one shared renderer so presentation, overview, and PDF stay visually identical.
+
+- Keep uploaded verbatim phase content in a shared source-data module consumed by the slide renderer so wording is not independently rewritten.

@@ -16,6 +16,8 @@ export const Route = createFileRoute("/")({
   component: StrategyDeck,
 });
 
+import source from "@/lib/deck-source.json";
+
 type SlideProps = { children: ReactNode; number: number; label?: string; className?: string };
 
 function Slide({ children, number, label = "LIIVRR / STRATEGIC EXECUTION", className = "" }: SlideProps) {
@@ -28,83 +30,27 @@ function Slide({ children, number, label = "LIIVRR / STRATEGIC EXECUTION", class
   );
 }
 
-const actions = [
-  ["Deploy", "Ship a lightweight, gas-optimized ticketing contract on Arc Mainnet to prove the core settlement path."],
-  ["Embed", "Integrate Circle Programmable Wallets for gasless account creation inside the Liivrr mobile experience."],
-  ["Capture", "Submit the live repository for $500 USDC and apply for $1,000 in credits to offset early infrastructure."],
-];
+function SourcePhase({ phase, number }: { phase: typeof source.phases[number]; number: number }) {
+  return <Slide number={number} className="source-phase">
+    <h2 className="source-title">{phase.title}</h2>
+    <div className="source-columns">
+      <div className="source-rationale"><section><h3>{phase.whatLabel}</h3><p>{phase.what}</p></section><section><h3>{phase.whyLabel}</h3><p>{phase.why}</p></section></div>
+      <section className="source-actions"><h3>{phase.actionLabel}</h3>{phase.actions.map((action, i) => <p className={action.startsWith("\t") ? "source-subaction" : ""} key={i}>{action.trim()}</p>)}</section>
+    </div>
+  </Slide>;
+}
 
 const slides = [
   {
     title: "Strategic Execution Roadmap",
     node: <Slide number={1} className="cover-slide">
-      <div className="cover-grid"><div><p className="slide-kicker">COO / BD CANDIDATE PLAN · 2026</p><h1 className="slide-title-lg">From infrastructure<br/>to <em>market flywheel.</em></h1><p className="slide-body-lg cover-copy">A five-phase operating system to build, fund, launch, and monetize Liivrr.</p></div><div className="north-star"><span>NORTH STAR · DEC 2026</span><strong>1,000</strong><p>active users</p><strong>50</strong><p>merchant tenants</p></div></div>
+      <div className="cover-grid"><div><p className="slide-kicker">{source.intro[1]}</p><h1 className="slide-title-lg source-cover-title">{source.intro[0]}</h1><p className="slide-body-lg cover-copy">{source.intro[2]}</p></div><div className="north-star"><span>NORTH STAR · DEC 2026</span><strong>1,000</strong><p>active users</p><strong>50</strong><p>merchant tenants</p></div></div>
       <div className="cover-rule" />
     </Slide>
   },
   {
-    title: "The Strategy",
-    node: <Slide number={2}>
-      <div className="slide-heading"><p className="slide-kicker">THE STRATEGY</p><h2 className="slide-title">Sequence risk before scale.</h2></div>
-      <div className="strategy-chain">
-        {[['01','PROVE','Ship the transaction layer and remove core technical uncertainty.'],['02','FUND','Convert working proof into non-dilutive operating runway.'],['03','CONCENTRATE','Build dense supply and demand inside focused campus clusters.'],['04','DIFFERENTIATE','Make discovery, booking, and payment conversational.'],['05','MONETIZE','Capture value across ads, placement, and transactions.']].map(([n,t,d])=><div className="chain-item" key={n}><span>{n}</span><strong>{t}</strong><p>{d}</p></div>)}
-      </div>
-      <p className="strategy-statement slide-body-lg">Capital follows proof. Users follow inventory. Revenue follows repeated intent.</p>
-    </Slide>
-  },
-  {
-    title: "Execution Timeline",
-    node: <Slide number={3}>
-      <div className="slide-heading"><p className="slide-kicker">90-DAY OPERATING ARC</p><h2 className="slide-title">Five phases. One compounding system.</h2></div>
-      <div className="timeline">
-        {[['01','DAYS 1–15','Infrastructure','Prove contracts, wallets, and ecosystem fit.'],['02','DAYS 16–30','Institutional capital','Tie grant releases to measurable traction.'],['03','DAYS 31–45','Campus pilot','Concentrate tenants and users locally.'],['04','DAYS 46–60','AI concierge','Convert intent directly into bookings.'],['05','DEC 2026+','Monetization','Layer revenue onto proven behavior.']].map(([n,d,t,o],i)=><div className="timeline-step" key={n}><div className="timeline-dot">{n}</div><p>{d}</p><strong>{t}</strong><span>{o}</span>{i<4&&<i/>}</div>)}
-      </div>
-      <div className="thesis-strip"><span>OPERATING PRINCIPLE</span><p>De-risk the next phase before increasing spend.</p></div>
-    </Slide>
-  },
-  {
-    title: "Phase 1 — Infrastructure",
-    node: <Slide number={4} label="PHASE 01 · DAYS 1–15">
-      <div className="phase-title"><div><p className="slide-kicker">FOUNDATION</p><h2 className="slide-title">Make the transaction layer real.</h2></div><strong className="phase-index">01</strong></div>
-      <div className="phase-layout"><div className="objective"><span>OBJECTIVE</span><p className="slide-body-lg">Launch a secure Arc Mainnet backend, embed frictionless wallets, and establish ecosystem credibility.</p><div className="why"><span>WHY NOW</span><p>Early mainnet proof removes technical risk and accelerates access to larger institutional grants.</p></div></div><div className="action-list">{actions.map(([a,b],i)=><div className="action-row" key={a}><span>0{i+1}</span><strong>{a}</strong><p>{b}</p></div>)}</div></div>
-      <div className="outcome-bar"><span>15-DAY OUTPUT</span><strong>Live contracts</strong><strong>Gasless wallets</strong><strong>$500 USDC + $1K credits</strong></div>
-    </Slide>
-  },
-  {
-    title: "Phase 2 — Capital",
-    node: <Slide number={5} label="PHASE 02 · DAYS 16–30">
-      <div className="phase-title"><div><p className="slide-kicker">NON-DILUTIVE RUNWAY</p><h2 className="slide-title">Turn proof into institutional backing.</h2></div><strong className="phase-index">02</strong></div>
-      <div className="capital-number"><span>CAPITAL TARGET</span><strong>UP TO $100K</strong><small>USDC · MILESTONE-BASED</small></div>
-      <div className="milestone-grid"><div><b>POSITIONING</b><h3>Consumer-scale USDC utility</h3><p>Frame ticketing and agentic commerce as high-velocity, real-world transaction infrastructure.</p></div><div><b>MILESTONE 01</b><h3>25 tenants</h3><p>First grant release tied to verified restaurant and event partner onboarding.</p></div><div><b>MILESTONE 02</b><h3>1,000 + 50</h3><p>Active wallets and total tenants by December 2026 unlock the next release.</p></div></div>
-    </Slide>
-  },
-  {
-    title: "Phase 3 — Market Entry",
-    node: <Slide number={6} label="PHASE 03 · DAYS 31–45">
-      <div className="phase-title"><div><p className="slide-kicker">CAMPUS BEACHHEAD</p><h2 className="slide-title">Win density, not geography.</h2></div><strong className="phase-index">03</strong></div>
-      <div className="market-loop"><div className="loop-core"><strong>LOCAL<br/>LIQUIDITY</strong><span>Dense supply + demand</span></div>{[['TENANTS','Recruit 50 restaurants and event organizers with a low-risk launch offer.'],['AMBASSADORS','Secure influential student hosts and exclusive access to repeat campus events.'],['INVITES','Reward peer referrals that pull trusted groups into private event chats.']].map(([a,b],i)=><div className={`loop-node node-${i+1}`} key={a}><span>{a}</span><p>{b}</p></div>)}</div>
-      <div className="offer-row"><span>ACQUISITION OFFER</span><strong>0% platform fees · first 3 months</strong><strong>Free AI attendance forecasting</strong></div>
-    </Slide>
-  },
-  {
-    title: "Phase 4 — Product Edge",
-    node: <Slide number={7} label="PHASE 04 · DAYS 46–60">
-      <div className="phase-title"><div><p className="slide-kicker">AI EVENT CONCIERGE</p><h2 className="slide-title">Turn intent into a completed night out.</h2></div><strong className="phase-index">04</strong></div>
-      <div className="concierge-grid"><div className="prompt-box"><span>USER INTENT</span><p>“Find an underground rave or a highly-rated dinner spot for my group tonight under $30.”</p></div><div className="flow-arrow">→</div><div className="agent-steps">{['Understand preferences + context','Search live local inventory','Confirm capacity + group fit','Book and process payment'].map((x,i)=><div key={x}><span>0{i+1}</span><p>{x}</p></div>)}</div></div>
-      <div className="tenant-band"><span>TENANT VALUE</span><p>Booking-flow data powers attendance, inventory, layout, and staffing decisions.</p></div>
-    </Slide>
-  },
-  {
-    title: "Phase 5 — Monetization",
-    node: <Slide number={8} label="PHASE 05 · DECEMBER 2026+">
-      <div className="phase-title"><div><p className="slide-kicker">REVENUE ENGINE</p><h2 className="slide-title">Monetize the flow—not the user.</h2></div><strong className="phase-index">05</strong></div>
-      <div className="revenue-grid">{[['01','CONVERSATIONAL ADS','Let local services bid for relevant, high-intent placement inside active planning conversations.'],['02','PREMIUM MAP','Sell sponsored pins and live highlights that help verified tenants fill capacity during peak windows.'],['03','PROTOCOL FEES','Collect a small processing fee on primary tickets, booking deposits, and secure peer-to-peer resale.']].map(([n,t,d])=><div className="revenue-card" key={n}><span>{n}</span><h3>{t}</h3><p>{d}</p></div>)}</div>
-      <div className="flywheel"><span>MORE INVENTORY</span><i>→</i><span>BETTER MATCHES</span><i>→</i><span>MORE BOOKINGS</span><i>→</i><span>MORE REVENUE</span></div>
-    </Slide>
-  },
-  {
     title: "COO/BD Operational Roadmap & Company Readiness",
-    node: <Slide number={9} className="readiness-slide">
+    node: <Slide number={2} className="readiness-slide">
       <div className="readiness-heading"><p className="slide-kicker">Strategic Execution Deck</p><h2 className="slide-title">COO/BD Operational Roadmap</h2></div>
       <p className="readiness-objective"><strong>Objective: </strong>A systematic blueprint to scale Liivrr through five hyper-efficient phases. Each step outlines the strategic objective (What), the business rationale (Why), and the precise execution path (How) to hit our core milestone of 1,000 active users and 50 merchant tenants (restaurants &amp; event organizers) by December 2026.</p>
       <div className="readiness-grid">
@@ -115,6 +61,28 @@ const slides = [
       </div>
     </Slide>
   },
+  {
+    title: "The Strategy",
+    node: <Slide number={3}>
+      <div className="slide-heading"><p className="slide-kicker">THE STRATEGY</p><h2 className="slide-title">Sequence risk before scale.</h2></div>
+      <div className="strategy-chain">
+        {[['01','PROVE','Ship the transaction layer and remove core technical uncertainty.'],['02','FUND','Convert working proof into non-dilutive operating runway.'],['03','CONCENTRATE','Build dense supply and demand inside focused campus clusters.'],['04','DIFFERENTIATE','Make discovery, booking, and payment conversational.'],['05','MONETIZE','Capture value across ads, placement, and transactions.']].map(([n,t,d])=><div className="chain-item" key={n}><span>{n}</span><strong>{t}</strong><p>{d}</p></div>)}
+      </div>
+      <p className="strategy-statement slide-body-lg">Capital follows proof. Users follow inventory. Revenue follows repeated intent.</p>
+    </Slide>
+  },
+  {
+    title: "Execution Timeline",
+    node: <Slide number={4}>
+      <div className="slide-heading"><p className="slide-kicker">90-DAY OPERATING ARC</p><h2 className="slide-title">Five phases. One compounding system.</h2></div>
+      <div className="timeline">
+        {[['01','DAYS 1–15','Infrastructure','Prove contracts, wallets, and ecosystem fit.'],['02','DAYS 16–30','Institutional capital','Tie grant releases to measurable traction.'],['03','DAYS 31–45','Campus pilot','Concentrate tenants and users locally.'],['04','DAYS 46–60','AI concierge','Convert intent directly into bookings.'],['05','DEC 2026+','Monetization','Layer revenue onto proven behavior.']].map(([n,d,t,o],i)=><div className="timeline-step" key={n}><div className="timeline-dot">{n}</div><p>{d}</p><strong>{t}</strong><span>{o}</span>{i<4&&<i/>}</div>)}
+      </div>
+      <div className="thesis-strip"><span>OPERATING PRINCIPLE</span><p>De-risk the next phase before increasing spend.</p></div>
+    </Slide>
+  },
+  ...source.phases.map((phase, i) => ({ title: phase.title, node: <SourcePhase phase={phase} number={i + 5} /> })),
+
 ];
 
 function ScaledSlide({ children, exportMode = false }: { children: ReactNode; exportMode?: boolean }) {
